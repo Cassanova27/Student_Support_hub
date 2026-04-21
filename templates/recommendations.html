@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Your Recommendations</h1>
+    <p class="subtitle">{{ message }}</p>
+
+    <div class="recommendation-box">
+        <p>{{ tip }}</p>
+    </div>
+
+    <br>
+    <a href="/resources" class="btn">View Support Resources</a>
+    <a href="/checkin" class="btn">Back to Check-In</a>
+</div>
+
+</body>
+</html>

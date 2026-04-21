@@ -1,29 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Check-In</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check In</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Wellbeing Check-In</h1>
 
-    <form method="POST" action="/checkin">
-        <label>Mood:</label><br>
+<div class="container">
+    <h1>Daily Check-In</h1>
+    <p class="subtitle">Tell us how you're feeling today</p>
+
+    <form action="/recommendations" method="POST">
+
+        <!-- Mood -->
+        <label>How are you feeling today?</label>
         <select name="mood" required>
-            <option value="Happy">Happy</option>
-            <option value="Neutral">Neutral</option>
-            <option value="Low">Low</option>
+            <option value="">Select</option>
+            <option value="happy">😊 Happy</option>
+            <option value="neutral">😐 Neutral</option>
+            <option value="sad">😔 Sad</option>
+            <option value="angry">😠 Angry</option>
+            <option value="tired">😴 Tired</option>
         </select>
+
+        <!-- Stress -->
+        <label>How stressed do you feel?</label>
+        <select name="stress" required>
+            <option value="">Select</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+
+        <!-- Sleep -->
+        <label>How well did you sleep?</label>
+        <select name="sleep" required>
+            <option value="">Select</option>
+            <option value="good">Good</option>
+            <option value="okay">Okay</option>
+            <option value="poor">Poor</option>
+        </select>
+
+        <!-- Energy -->
+        <label>How is your energy level?</label>
+        <select name="energy" required>
+            <option value="">Select</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+        </select>
+
+        <!-- Academic Pressure -->
+        <label>Do you feel academically overwhelmed?</label>
+        <select name="pressure" required>
+            <option value="">Select</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+
         <br><br>
 
-        <label>Stress:</label><br>
-        <input type="number" name="stress" required>
-        <br><br>
+        <button type="submit" class="btn">Get Recommendations</button>
 
-        <label>Sleep:</label><br>
-        <input type="number" name="sleep" required>
-        <br><br>
-
-        <button type="submit">Submit</button>
     </form>
+</div>
+
 </body>
 </html>

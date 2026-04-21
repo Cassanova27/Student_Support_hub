@@ -1,38 +1,37 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route('/')
-def login():
-    return render_template('login.html')
-
-@app.route('/login', methods=['POST'])
-def handle_login():
-    return redirect(url_for('home'))
-
-@app.route('/home')
+@app.route("/")
 def home():
-    return render_template('home.html')
+    return render_template("index.html")
 
-@app.route('/checkin')
+@app.route("/checkin")
 def checkin():
-    return render_template('checkin.html')
+    return render_template("checkin.html")
 
-@app.route('/resources')
-def resources():
-    return render_template('resources.html')
+@app.route("/recommendations", methods=["POST"])
+def recommendations():
+    mood = request.form["mood"]
+    stress = request.form["stress"]
+    sleep = request.form["sleep"]
+    energy = request.form["energy"]
+    pressure = request.form["pressure"]
 
-@app.route('/submit', methods=['POST'])
-def submit():
-    mood = request.form.get('mood')
-    stress = request.form.get('stress')
-    sleep = request.form.get('sleep')
+    message = ""
+    tip = ""
 
-    print("Mood:", mood)
-    print("Stress:", stress)
-    print("Sleep:", sleep)
+    if mood in ["sad", "angry"] or stress == "high" or pressure == "yes":
+        message = "It seems like you may be feeling overwhelmed today."
+        tip = "Try taking a short break, doing a breathing exercise, and reaching out for support if needed."
+    elif sleep == "poor" or energy == "low" or mood == "tired":
+        message = "You may be experiencing low energy or tiredness today."
+        tip = "Focus on rest, hydration, and giving yourself time to recharge."
+    else:
+        message = "You seem to be doing fairly well today."
+        tip = "Keep maintaining positive habits like rest, balance, and regular check-ins."
 
-    return render_template('thankyou.html')
+    return render_template("recommendations.html", message=message, tip=tip)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

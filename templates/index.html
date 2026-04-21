@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Wellbeing Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Home Page</h1>
-    <a href="/checkin">Go to Check-In</a>
+    <div class="container">
+        <h1>How Are You Feeling Today?</h1>
+        <p class="subtitle">A simple space for students to check in, reflect, and access wellbeing support.</p>
+
+        <a href="/checkin" class="btn">Start Check-In</a>
+
+        <div class="mood-icons">
+            <div class="mood green">😊</div>
+            <div class="mood pink">😕</div>
+            <div class="mood blue">😴</div>
+            <div class="mood yellow">🙂</div>
+            <div class="mood orange">😠</div>
+        </div>
+    </div>
 </body>
 </html>
