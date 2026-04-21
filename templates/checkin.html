@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check-In</title>
+</head>
+<body>
+    <h1>Wellbeing Check-In</h1>
+
+    <form method="POST" action="/checkin">
+        <label>Mood:</label><br>
+        <select name="mood" required>
+            <option value="Happy">Happy</option>
+            <option value="Neutral">Neutral</option>
+            <option value="Low">Low</option>
+        </select>
+        <br><br>
+
+        <label>Stress:</label><br>
+        <input type="number" name="stress" required>
+        <br><br>
+
+        <label>Sleep:</label><br>
+        <input type="number" name="sleep" required>
+        <br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
