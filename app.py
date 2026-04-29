@@ -86,5 +86,13 @@ def recommendations():
         score=score
     )
 
+@app.route("/view-checkins")
+def view_checkins():
+    conn = get_db_connection()
+    checkins = conn.execute("SELECT * FROM checkins").fetchall()
+    conn.close()
+
+    return render_template("view_checkins.html", checkins=checkins)
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Check-ins</title>
+</head>
+<body>
+
+<h1>Saved Check-ins</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Mood</th>
+        <th>Academic</th>
+        <th>Workload</th>
+        <th>Activity</th>
+        <th>Rating</th>
+        <th>Score</th>
+        <th>Date</th>
+    </tr>
+
+    {% for checkin in checkins %}
+    <tr>
+        <td>{{ checkin.id }}</td>
+        <td>{{ checkin.user_id }}</td>
+        <td>{{ checkin.mood }}</td>
+        <td>{{ checkin.academic }}</td>
+        <td>{{ checkin.workload }}</td>
+        <td>{{ checkin.activity }}</td>
+        <td>{{ checkin.rating }}</td>
+        <td>{{ checkin.score }}</td>
+        <td>{{ checkin.date }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<a href="/">Back Home</a>
+
+</body>
+</html>
