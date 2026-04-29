@@ -8,17 +8,30 @@
 </head>
 <body>
 
-<div class="container">
-    <h1>Your Recommendations</h1>
-    <p class="subtitle">{{ message }}</p>
+<div class="container results-card">
 
-    <div class="recommendation-box">
+    <h1>Your Results</h1>
+
+    <div class="score-box">
+        <h2>Your Wellbeing Score</h2>
+        <p class="score">{{ score }}</p>
+    </div>
+
+    <div class="feedback-box">
+        <h3>Feedback</h3>
+        <p>{{ message }}</p>
+    </div>
+
+    <div class="tip-box">
+        <h3>Recommendation</h3>
         <p>{{ tip }}</p>
     </div>
 
-    <br>
-    <a href="/resources" class="btn">View Support Resources</a>
-    <a href="/checkin" class="btn">Back to Check-In</a>
+    <div class="actions">
+        <a href="/checkin" class="btn">Do another check-in</a>
+        <a href="/" class="btn secondary">Back to home</a>
+    </div>
+
 </div>
 
 </body>
