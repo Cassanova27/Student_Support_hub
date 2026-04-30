@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
+from werkzeug.security import generate_password_hash
+
 
 app = Flask(__name__)
+app.secret_key = "student_support_secret_key"
 
 def get_db_connection():
     conn = sqlite3.connect("wellbeing.db")
@@ -11,6 +14,33 @@ def get_db_connection():
 @app.route("/")
 def home():
     return render_template("index.html")
+
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        hashed_password = generate_password_hash(password)
+
+        conn = get_db_connection()
+
+        try:
+            conn.execute(
+                "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+                (username, email, hashed_password)
+            )
+            conn.commit()
+            conn.close()
+            return "Account created successfully!"
+
+        except sqlite3.IntegrityError:
+            conn.close()
+            return "Username or email already exists."
+
+    return render_template("signup.html")
 
 @app.route("/checkin")
 def checkin():
