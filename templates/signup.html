@@ -6,25 +6,45 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+{% extends "base.html" %}
 
-<div class="container">
-    <h1>Create Account</h1>
+{% block content %}
 
-    <form action="/signup" method="POST">
-        <label>Username</label>
-        <input type="text" name="username" required>
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
 
-        <label>Email</label>
-        <input type="email" name="email" required>
+    <div class="col-md-5 bg-white p-5 rounded-4 shadow-sm">
 
-        <label>Password</label>
-        <input type="password" name="password" required>
+        <h2 class="fw-bold mb-4 text-center">Create Account</h2>
 
-        <button type="submit">Sign Up</button>
-    </form>
+        <form method="POST">
 
-    <p>Already have an account? <a href="/login">Login here</a></p>
+            <div class="mb-3">
+                <input type="text" name="username" class="form-control" placeholder="Username" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100 rounded-pill">
+                Sign Up
+            </button>
+
+        </form>
+
+        <p class="text-center mt-3">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Login</a>
+        </p>
+
+    </div>
+
 </div>
 
+{% endblock %}
 </body>
 </html>

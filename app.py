@@ -12,9 +12,10 @@ def get_db_connection():
     return conn
 
 @app.route("/")
-def home():
+def index():
+    if "user_id" in session:
+        return redirect(url_for("dashboard"))
     return render_template("index.html")
-
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -42,9 +43,27 @@ def signup():
 
     return render_template("signup.html")
 
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    # login logic here
+    return render_template("login.html")
+
+
+@app.route("/dashboard")
+def dashboard():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    return render_template("dashboard.html")
+
+
+
 @app.route("/checkin")
 def checkin():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
     return render_template("checkin.html")
+
 
 @app.route("/recommendations", methods=["POST"])
 def recommendations():
