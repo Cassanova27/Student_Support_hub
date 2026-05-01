@@ -1,25 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Wellbeing Hub</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
- {% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
-<div class="container text-center mt-5">
-    <h1>Not Sure About Your Mood?</h1>
-    <p>Track your wellbeing and get personalised support.</p>
+<div class="container min-vh-100 d-flex align-items-center justify-content-center text-center">
+    <div>
+        <h1 class="display-4 fw-bold">Not Sure About Your Mood?</h1>
+        <p class="lead">Track your wellbeing and get personalised support.</p>
 
-    <a href="{{ url_for('signup') }}" class="btn btn-dark mt-3">
-        Get Started →
-    </a>
+        <a href="{{ url_for('signup') }}" class="btn btn-dark btn-lg rounded-pill mt-3">
+            Get Started →
+        </a>
+
+        <div class="row g-3 justify-content-center mt-5">
+            <div class="col-4 col-md-2">
+                <div class="p-4 rounded-4 bg-white shadow-sm display-5 emoji-card">
+                    😊</div>
+            </div>
+
+            <div class="col-4 col-md-2">
+                <div class="p-4 rounded-4 bg-light fs-1">😌</div>
+            </div>
+
+            <div class="col-4 col-md-2">
+                <div class="p-4 rounded-4 bg-light fs-1">😣</div>
+            </div>
+
+            <div class="col-4 col-md-2">
+                <div class="p-4 rounded-4 bg-light fs-1">😴</div>
+            </div>
+
+            <div class="col-4 col-md-2">
+                <div class="p-4 rounded-4 bg-light fs-1">😵‍💫</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
-</body>
-</html>

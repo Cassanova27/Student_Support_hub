@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
@@ -13,8 +13,6 @@ def get_db_connection():
 
 @app.route("/")
 def index():
-    if "user_id" in session:
-        return redirect(url_for("dashboard"))
     return render_template("index.html")
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -35,7 +33,7 @@ def signup():
             )
             conn.commit()
             conn.close()
-            return "Account created successfully!"
+            return redirect(url_for("login"))
 
         except sqlite3.IntegrityError:
             conn.close()
@@ -46,7 +44,24 @@ def signup():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # login logic here
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        conn = get_db_connection()
+        user = conn.execute(
+            "SELECT * FROM users WHERE email = ?",
+            (email,)
+        ).fetchone()
+        conn.close()
+
+        if user and check_password_hash(user["password"], password):
+            session["user_id"] = user["id"]
+            session["username"] = user["username"]
+            return redirect(url_for("index"))
+
+        return "Invalid email or password"
+
     return render_template("login.html")
 
 
