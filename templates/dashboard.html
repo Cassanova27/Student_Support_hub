@@ -2,19 +2,318 @@
 
 {% block content %}
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(135deg, #f3e8ff 0%, #fce4ec 50%, #e8f5e9 100%) !important;
+    min-height: 100vh;
+  }
+
+  .dashboard-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  /* Header */
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+
+  .dashboard-header .small-text {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9E7ABF;
+    margin-bottom: 4px;
+  }
+
+  .dashboard-header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 600;
+    color: #2a2a2a;
+    line-height: 1.2;
+  }
+
+  .dashboard-header h1 em {
+    font-style: italic;
+    color: #8B5CF6;
+  }
+
+  .profile-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #D6C9F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #5B21B6;
+    flex-shrink: 0;
+  }
+
+  /* Mood row */
+  .mood-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .mood-pill {
+    text-decoration: none;
+    background: white;
+    color: #2a2a2a;
+    border: 1.5px solid #E9D8FD;
+    border-radius: 40px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .mood-pill:hover {
+    background: #EDE9FE;
+    border-color: #C4B5FD;
+    transform: translateY(-2px);
+    color: #2a2a2a;
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    border: none;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 52px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .stat-sub {
+    font-size: 12px;
+    margin-top: 4px;
+    opacity: 0.65;
+  }
+
+  .stat-deco {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    font-size: 80px;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  .card-purple { background: #D6C9F0; color: #3B1F6E; }
+  .card-peach  { background: #FDDBB4; color: #7A3B00; }
+  .card-green  { background: #C3ECD4; color: #064E2E; }
+
+  /* Dashboard grid */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .dash-card {
+    border-radius: 20px;
+    padding: 24px;
+    border: none;
+    transition: transform 0.2s;
+  }
+  .dash-card:hover { transform: translateY(-3px); }
+
+  .dash-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #2a2a2a;
+  }
+
+  .dash-card p { font-size: 13px; color: #555; margin-bottom: 14px; }
+
+  .dash-card a {
+    font-size: 13px;
+    font-weight: 500;
+    color: #2a2a2a;
+    text-decoration: none;
+    border-bottom: 1.5px solid rgba(0,0,0,0.2);
+    padding-bottom: 1px;
+  }
+  .dash-card a:hover { border-color: #2a2a2a; }
+
+  .green-card  { background: #C3ECD4; }
+  .orange-card { background: #FDDBB4; }
+  .purple-card { background: #D6C9F0; }
+  .yellow-card { background: #FFF3B0; }
+
+  /* Stress dots */
+  .stress-dots { display: flex; gap: 6px; margin-top: 10px; }
+  .stress-dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.1);
+  }
+  .stress-dot.filled { background: rgba(91,33,182,0.35); }
+
+  /* Recent checkins */
+  .history-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    border: 1px solid #F0EDE8;
+  }
+
+  .history-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #2a2a2a;
+  }
+
+  .checkin-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    background: #FAF7F5;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: background 0.2s;
+  }
+  .checkin-row:hover { background: #EDE9FE; }
+  .checkin-row .mood-emoji { font-size: 22px; }
+  .checkin-row .info { flex: 1; }
+  .checkin-row .info strong { display: block; font-size: 14px; font-weight: 500; }
+  .checkin-row .info span { font-size: 12px; color: #999; }
+
+  .score-badge {
+    background: #D6C9F0;
+    color: #5B21B6;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .pts-badge { font-size: 12px; color: #999; font-weight: 500; }
+
+  .empty-state {
+    text-align: center;
+    padding: 28px;
+    color: #aaa;
+    font-size: 14px;
+  }
+  .empty-state a { color: #8B5CF6; }
+
+  /* Bottom grid */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .daily-card, .support-card {
+    border-radius: 20px;
+    padding: 28px;
+  }
+
+  .daily-card { background: #2a2a2a; color: white; }
+  .daily-card h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .daily-card p { font-size: 13px; opacity: 0.7; margin-bottom: 20px; }
+
+  .dark-btn {
+    display: inline-block;
+    background: white;
+    color: #2a2a2a;
+    border-radius: 40px;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .dark-btn:hover { opacity: 0.85; color: #2a2a2a; }
+
+  .support-card { background: #EDE9FE; }
+  .support-card h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: #2a2a2a;
+    margin-bottom: 8px;
+  }
+  .support-card p { font-size: 13px; color: #555; margin-bottom: 20px; }
+
+  .outline-btn {
+    display: inline-block;
+    border: 1.5px solid #8B5CF6;
+    color: #8B5CF6;
+    border-radius: 40px;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .outline-btn:hover { background: #8B5CF6; color: white; }
+
+  @media (max-width: 640px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .bottom-grid { grid-template-columns: 1fr; }
+    .stat-num { font-size: 38px; }
+  }
+</style>
+
 <div class="dashboard-wrapper">
 
+  <!-- Header -->
   <div class="dashboard-header">
     <div>
       <p class="small-text">Welcome back</p>
-      <h1>Hello {{ session['username'] }}! How are you feeling today?</h1>
+      <h1>Hello <em>{{ username }}!</em> How are you feeling today?</h1>
     </div>
-
-    <div class="profile-circle">
-      {{ session['username'][0]|upper }}
-    </div>
+    <div class="profile-circle">{{ username[0] | upper }}</div>
   </div>
 
+  <!-- Mood pills -->
   <div class="mood-row">
     <a href="{{ url_for('checkin') }}" class="mood-pill">😊 Happy</a>
     <a href="{{ url_for('checkin') }}" class="mood-pill">😐 Okay</a>
@@ -23,22 +322,68 @@
     <a href="{{ url_for('checkin') }}" class="mood-pill">😢 Sad</a>
   </div>
 
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card card-purple">
+      <div class="stat-label">⭐ Total Points</div>
+      <div class="stat-num">{{ stats.total_points if stats else 0 }}</div>
+      <div class="stat-sub">points earned</div>
+      <div class="stat-deco">⭐</div>
+    </div>
+    <div class="stat-card card-peach">
+      <div class="stat-label">🔥 Streak</div>
+      <div class="stat-num">{{ stats.current_streak if stats else 0 }}</div>
+      <div class="stat-sub">day streak</div>
+      <div class="stat-deco">🔥</div>
+    </div>
+    <div class="stat-card card-green">
+      <div class="stat-label">📋 Check-ins</div>
+      <div class="stat-num">{{ recent_checkins | length }}</div>
+      <div class="stat-sub">recent entries</div>
+      <div class="stat-deco">📋</div>
+    </div>
+  </div>
+
+  <!-- Cards grid -->
   <div class="dashboard-grid">
 
     <div class="dash-card green-card">
-      <h3>Today’s Mood</h3>
+      <h3>Today's Mood</h3>
       <p>Ready to check in?</p>
       <a href="{{ url_for('checkin') }}">Start check-in →</a>
     </div>
 
     <div class="dash-card orange-card">
       <h3>Sleep</h3>
-      <p>Track how rested you feel.</p>
+      {% if recent_checkins %}
+        {% set last = recent_checkins[0] %}
+        <p>Last rating: <strong>{{ last.rating }}/10</strong> —
+          {% if last.rating >= 8 %}Great night!
+          {% elif last.rating >= 5 %}Not bad.
+          {% else %}Could be better.{% endif %}
+        </p>
+      {% else %}
+        <p>Track how rested you feel.</p>
+      {% endif %}
     </div>
 
     <div class="dash-card purple-card">
       <h3>Stress Level</h3>
-      <p>Notice your stress patterns.</p>
+      {% if recent_checkins %}
+        {% set last = recent_checkins[0] %}
+        <p>Last check-in: <strong>{{ last.workload | capitalize if last.workload else '—' }}</strong></p>
+        <div class="stress-dots">
+          {% set level = 3 if last.workload == 'high' else (2 if last.workload == 'medium' else 1) %}
+          {% for i in range(5) %}
+            <div class="stress-dot {% if i < level %}filled{% endif %}"></div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>Notice your stress patterns.</p>
+        <div class="stress-dots">
+          {% for i in range(5) %}<div class="stress-dot"></div>{% endfor %}
+        </div>
+      {% endif %}
     </div>
 
     <div class="dash-card yellow-card">
@@ -48,22 +393,46 @@
 
   </div>
 
-  <div class="bottom-grid">
+  <!-- Recent check-ins -->
+  <div class="history-card">
+    <h3>Recent Check-Ins</h3>
+    {% if recent_checkins %}
+      {% for c in recent_checkins %}
+      <div class="checkin-row">
+        <div class="mood-emoji">
+          {% if c.mood == 'happy' %}😊
+          {% elif c.mood == 'okay' %}😐
+          {% elif c.mood == 'tired' %}😴
+          {% elif c.mood == 'stressed' %}😟
+          {% else %}😢{% endif %}
+        </div>
+        <div class="info">
+          <strong>{{ c.mood | capitalize }} — {{ c.workload | capitalize if c.workload else 'N/A' }} workload</strong>
+          <span>{{ c.date }}</span>
+        </div>
+        <div class="score-badge">Score: {{ c.score }}</div>
+        <div class="pts-badge">+{{ c.points_earned }} pts</div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state">
+        No check-ins yet — <a href="{{ url_for('checkin') }}">start your first one!</a>
+      </div>
+    {% endif %}
+  </div>
 
+  <!-- Bottom -->
+  <div class="bottom-grid">
     <div class="daily-card">
       <h2>Daily Check-in</h2>
       <p>Taking a moment to reflect can help you understand your mood better.</p>
-
       <a href="{{ url_for('checkin') }}" class="dark-btn">Go to check-in</a>
     </div>
-
     <div class="support-card">
       <h2>Need support?</h2>
       <p>You are not alone. Reach out to someone you trust or use support resources if things feel overwhelming.</p>
-
-      <a href="{{ url_for('logout') }}" class="outline-btn">Log out</a>
+      <a href="{{ url_for('recommendations') }}" class="outline-btn">View recommendations</a>
     </div>
-
   </div>
 
 </div>
