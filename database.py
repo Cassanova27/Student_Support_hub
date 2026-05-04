@@ -4,6 +4,7 @@ def create_database():
     conn = sqlite3.connect("wellbeing.db")
     cursor = conn.cursor()
 
+    # --- Existing tables (unchanged) ---
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,7 +26,20 @@ def create_database():
             activity TEXT,
             rating INTEGER,
             score INTEGER,
+            points_earned INTEGER DEFAULT 0,
             date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    """)
+
+    # --- NEW: points and streaks table ---
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS user_stats (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER UNIQUE NOT NULL,
+            total_points INTEGER DEFAULT 0,
+            current_streak INTEGER DEFAULT 0,
+            last_checkin_date TEXT,
             FOREIGN KEY (user_id) REFERENCES users(id)
         )
     """)
