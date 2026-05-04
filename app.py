@@ -44,6 +44,8 @@ def signup():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    error = None
+
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
@@ -58,11 +60,11 @@ def login():
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
             session["username"] = user["username"]
-            return redirect(url_for("index"))
 
-        return "Invalid email or password"
+            return redirect(url_for("dashboard"))
+        error = "Invalid email or Password"
 
-    return render_template("login.html")
+    return render_template("login.html", error=error)
 
 
 @app.route("/dashboard")
@@ -71,7 +73,10 @@ def dashboard():
         return redirect(url_for("login"))
     return render_template("dashboard.html")
 
-
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 
 @app.route("/checkin")
 def checkin():

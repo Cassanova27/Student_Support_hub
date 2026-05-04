@@ -1,6 +1,71 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Dashboard</h1>
-<p>Your data will go here</p>
+
+<div class="dashboard-wrapper">
+
+  <div class="dashboard-header">
+    <div>
+      <p class="small-text">Welcome back</p>
+      <h1>Hello {{ session['username'] }}! How are you feeling today?</h1>
+    </div>
+
+    <div class="profile-circle">
+      {{ session['username'][0]|upper }}
+    </div>
+  </div>
+
+  <div class="mood-row">
+    <a href="{{ url_for('checkin') }}" class="mood-pill">😊 Happy</a>
+    <a href="{{ url_for('checkin') }}" class="mood-pill">😐 Okay</a>
+    <a href="{{ url_for('checkin') }}" class="mood-pill">😴 Tired</a>
+    <a href="{{ url_for('checkin') }}" class="mood-pill">😟 Stressed</a>
+    <a href="{{ url_for('checkin') }}" class="mood-pill">😢 Sad</a>
+  </div>
+
+  <div class="dashboard-grid">
+
+    <div class="dash-card green-card">
+      <h3>Today’s Mood</h3>
+      <p>Ready to check in?</p>
+      <a href="{{ url_for('checkin') }}">Start check-in →</a>
+    </div>
+
+    <div class="dash-card orange-card">
+      <h3>Sleep</h3>
+      <p>Track how rested you feel.</p>
+    </div>
+
+    <div class="dash-card purple-card">
+      <h3>Stress Level</h3>
+      <p>Notice your stress patterns.</p>
+    </div>
+
+    <div class="dash-card yellow-card">
+      <h3>Journal</h3>
+      <p>Write a quick reflection.</p>
+    </div>
+
+  </div>
+
+  <div class="bottom-grid">
+
+    <div class="daily-card">
+      <h2>Daily Check-in</h2>
+      <p>Taking a moment to reflect can help you understand your mood better.</p>
+
+      <a href="{{ url_for('checkin') }}" class="dark-btn">Go to check-in</a>
+    </div>
+
+    <div class="support-card">
+      <h2>Need support?</h2>
+      <p>You are not alone. Reach out to someone you trust or use support resources if things feel overwhelming.</p>
+
+      <a href="{{ url_for('logout') }}" class="outline-btn">Log out</a>
+    </div>
+
+  </div>
+
+</div>
+
 {% endblock %}
