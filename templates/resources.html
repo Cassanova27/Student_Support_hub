@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+  .resources-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  .resources-header {
+    margin-bottom: 32px;
+  }
+
+  .resources-header .small-text {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9E7ABF;
+    margin-bottom: 4px;
+  }
+
+  .resources-header h1 {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    color: #2a2a2a;
+    margin-bottom: 6px;
+  }
+
+  .resources-header p {
+    font-size: 14px;
+    color: #888;
+  }
+
+  /* Section title */
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9E7ABF;
+    margin: 32px 0 14px;
+  }
+
+  /* Cards grid */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .resource-card {
+    border-radius: 20px;
+    padding: 24px;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: block;
+    color: #2a2a2a;
+  }
+
+  .resource-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
+    color: #2a2a2a;
+    text-decoration: none;
+  }
+
+  .resource-card .card-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .resource-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .resource-card p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .resource-card .card-link {
+    font-size: 12px;
+    font-weight: 600;
+    color: #5B21B6;
+    text-decoration: none;
+    border-bottom: 1.5px solid #D6C9F0;
+    padding-bottom: 1px;
+  }
+
+  .resource-card .card-phone {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2a2a2a;
+  }
+
+  /* Card colours */
+  .card-purple { background: #D6C9F0; }
+  .card-pink   { background: #F9C4D2; }
+  .card-green  { background: #C3ECD4; }
+  .card-peach  { background: #FDDBB4; }
+  .card-blue   { background: #BDE0F5; }
+  .card-yellow { background: #FFF3B0; }
+  .card-dark   { background: #2a2a2a; color: white; }
+  .card-dark p { color: #ccc; }
+  .card-dark .card-link { color: #D6C9F0; border-color: #555; }
+  .card-dark h3 { color: white; }
+
+  /* University placeholder card */
+  .uni-card {
+    border-radius: 20px;
+    padding: 28px;
+    background: #EDE9FE;
+    border: 2px dashed #C4B5FD;
+    margin-bottom: 16px;
+  }
+  .uni-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #5B21B6;
+    margin-bottom: 6px;
+  }
+  .uni-card p { font-size: 13px; color: #7C4DB8; }
+
+  @media (max-width: 768px) {
+    .resources-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 500px) {
+    .resources-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="resources-wrapper">
+
+  <!-- Header -->
+  <div class="resources-header">
+    <p class="small-text">Support & Wellbeing</p>
+    <h1>Resources 💚</h1>
+    <p>You don't have to face things alone. Here are some helpful resources and contacts.</p>
+  </div>
+
+  <!-- Mental Health -->
+  <div class="section-title">🧠 Mental Health Support</div>
+  <div class="resources-grid">
+
+    <a href="https://www.samaritans.org" target="_blank" class="resource-card card-purple">
+      <div class="card-icon">📞</div>
+      <h3>Samaritans</h3>
+      <p>Free, confidential support for anyone struggling emotionally, 24 hours a day.</p>
+      <div class="card-phone">116 123</div>
+    </a>
+
+    <a href="https://www.mind.org.uk" target="_blank" class="resource-card card-pink">
+      <div class="card-icon">🧠</div>
+      <h3>Mind</h3>
+      <p>Mental health charity providing advice and support to empower anyone experiencing a mental health problem.</p>
+      <span class="card-link">mind.org.uk →</span>
+    </a>
+
+    <a href="https://www.studentminds.org.uk" target="_blank" class="resource-card card-green">
+      <div class="card-icon">🎓</div>
+      <h3>Student Minds</h3>
+      <p>The UK's student mental health charity, supporting students and universities to develop better mental health.</p>
+      <span class="card-link">studentminds.org.uk →</span>
+    </a>
+
+  </div>
+
+  <!-- Self Help -->
+  <div class="section-title">🛠️ Self Help Tools</div>
+  <div class="resources-grid">
+
+    <a href="https://www.nhs.uk/every-mind-matters" target="_blank" class="resource-card card-peach">
+      <div class="card-icon">💭</div>
+      <h3>Every Mind Matters</h3>
+      <p>NHS resource with expert advice and practical tips to help you look after your mental health.</p>
+      <span class="card-link">nhs.uk →</span>
+    </a>
+
+    <a href="https://www.headspace.com" target="_blank" class="resource-card card-blue">
+      <div class="card-icon">🧘</div>
+      <h3>Headspace</h3>
+      <p>Guided meditation and mindfulness app to help reduce stress and improve sleep.</p>
+      <span class="card-link">headspace.com →</span>
+    </a>
+
+    <a href="https://www.calm.com" target="_blank" class="resource-card card-yellow">
+      <div class="card-icon">🌿</div>
+      <h3>Calm</h3>
+      <p>Sleep, meditation and relaxation app designed to help reduce anxiety and improve wellbeing.</p>
+      <span class="card-link">calm.com →</span>
+    </a>
+
+  </div>
+
+  <!-- Emergency -->
+  <div class="section-title">🚨 Emergency Contacts</div>
+  <div class="resources-grid">
+
+    <div class="resource-card card-dark">
+      <div class="card-icon">🚑</div>
+      <h3>Emergency Services</h3>
+      <p>For immediate danger to life or a medical emergency.</p>
+      <div class="card-phone" style="color:white;">999</div>
+    </div>
+
+    <div class="resource-card card-pink">
+      <div class="card-icon">🏥</div>
+      <h3>Urgent Medical Help</h3>
+      <p>For urgent medical concerns that aren't life threatening.</p>
+      <div class="card-phone">111</div>
+    </div>
+
+    <a href="https://giveusashout.org" target="_blank" class="resource-card card-green">
+      <div class="card-icon">💬</div>
+      <h3>Shout Crisis Text</h3>
+      <p>Free, confidential crisis text support available 24/7. Text SHOUT to 85258.</p>
+      <div class="card-phone">Text: 85258</div>
+    </a>
+
+  </div>
+
+</div>
+
+{% endblock %}

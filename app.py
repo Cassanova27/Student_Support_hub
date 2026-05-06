@@ -221,6 +221,11 @@ def recommendations():
         score=score,
         points_earned=points_earned
     )
+@app.route("/resources")
+def resources():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    return render_template("resources.html") 
 
 @app.route("/view-checkins")
 def view_checkins():
@@ -236,3 +241,4 @@ def view_checkins():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
