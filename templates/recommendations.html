@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recommendations</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .points-box {
+            background: #D6C9F0;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .points-box .points-num {
+            font-size: 48px;
+            font-weight: 700;
+            color: #5B21B6;
+        }
+        .points-box p {
+            font-size: 14px;
+            color: #7C4DB8;
+            margin: 0;
+        }
+        .points-box .star {
+            font-size: 28px;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,6 +37,13 @@
     <div class="score-box">
         <h2>Your Wellbeing Score</h2>
         <p class="score">{{ score }}</p>
+    </div>
+
+    <!-- Points earned -->
+    <div class="points-box">
+        <div class="star">⭐</div>
+        <div class="points-num">+{{ points_earned }}</div>
+        <p>points earned this check-in!</p>
     </div>
 
     <div class="feedback-box">
@@ -29,7 +58,7 @@
 
     <div class="actions">
         <a href="/checkin" class="btn">Do another check-in</a>
-        <a href="/" class="btn secondary">Back to home</a>
+        <a href="/dashboard" class="btn secondary">Back to Dashboard</a>
     </div>
 
 </div>
