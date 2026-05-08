@@ -387,9 +387,10 @@
     </div>
 
     <div class="dash-card yellow-card">
-      <h3>Journal</h3>
-      <p>Write a quick reflection.</p>
-    </div>
+    <h3>Journal</h3>
+    <p>Write a quick reflection.</p>
+    <a href="{{ url_for('journal') }}">Write today's entry →</a>
+</div>
 
   </div>
 
@@ -421,7 +422,7 @@
     {% endif %}
   </div>
 
-  <!-- Bottom -->
+  
   <div class="bottom-grid">
     <div class="daily-card">
       <h2>Daily Check-in</h2>

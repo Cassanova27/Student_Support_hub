@@ -4,7 +4,7 @@ def create_database():
     conn = sqlite3.connect("wellbeing.db")
     cursor = conn.cursor()
 
-    # --- Existing tables (unchanged) ---
+ 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,7 +32,6 @@ def create_database():
         )
     """)
 
-    # --- NEW: points and streaks table ---
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS user_stats (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,6 +42,15 @@ def create_database():
             FOREIGN KEY (user_id) REFERENCES users(id)
         )
     """)
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS journals (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        entry TEXT NOT NULL,
+        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )
+""")
 
     conn.commit()
     conn.close()

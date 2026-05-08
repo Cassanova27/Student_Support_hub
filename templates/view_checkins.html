@@ -1,42 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>View Check-ins</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h1>Saved Check-ins</h1>
+{% block content %}
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>User ID</th>
-        <th>Mood</th>
-        <th>Academic</th>
-        <th>Workload</th>
-        <th>Activity</th>
-        <th>Rating</th>
-        <th>Score</th>
-        <th>Date</th>
-    </tr>
+<div style="max-width: 960px; margin: 0 auto; padding: 40px 20px;">
 
+    <p style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #9E7ABF;">Your History</p>
+    <h1 style="font-family: Georgia, serif; font-size: 32px; font-weight: 600; margin-bottom: 24px;">Check-in History</h1>
+
+    {% if checkins %}
     {% for checkin in checkins %}
-    <tr>
-        <td>{{ checkin.id }}</td>
-        <td>{{ checkin.user_id }}</td>
-        <td>{{ checkin.mood }}</td>
-        <td>{{ checkin.academic }}</td>
-        <td>{{ checkin.workload }}</td>
-        <td>{{ checkin.activity }}</td>
-        <td>{{ checkin.rating }}</td>
-        <td>{{ checkin.score }}</td>
-        <td>{{ checkin.date }}</td>
-    </tr>
+    <div style="background: white; border-radius: 16px; padding: 20px 24px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; border: 1px solid #F0EDE8;">
+
+        <div style="background: #D6C9F0; border-radius: 12px; padding: 10px 16px; font-weight: 700; color: #5B21B6; font-size: 18px; min-width: 60px; text-align: center;">
+            {{ checkin.score }}
+        </div>
+
+        <div style="flex: 1;">
+            <strong style="display: block; font-size: 15px;">{{ checkin.mood | capitalize }} — {{ checkin.workload | capitalize }} workload</strong>
+            <span style="font-size: 12px; color: #999;">Academic: {{ checkin.academic | capitalize }} &nbsp;|&nbsp; Activity: {{ checkin.activity | capitalize }} &nbsp;|&nbsp; Rating: {{ checkin.rating }}/10</span>
+        </div>
+
+        <div style="text-align: right;">
+            <span style="font-size: 12px; color: #999;">{{ checkin.date }}</span><br>
+            <span style="font-size: 12px; font-weight: 600; color: #8B5CF6;">+{{ checkin.points_earned }} pts</span>
+        </div>
+
+    </div>
     {% endfor %}
-</table>
 
-<br>
-<a href="/">Back Home</a>
+    {% else %}
+    <div style="text-align: center; padding: 40px; background: white; border-radius: 16px;">
+        <p style="color: #aaa;">No check-ins yet — <a href="/checkin" style="color: #8B5CF6;">start your first one!</a></p>
+    </div>
+    {% endif %}
 
-</body>
-</html>
+    <a href="/dashboard" style="display: inline-block; margin-top: 20px; color: #8B5CF6; font-size: 14px; text-decoration: none;">← Back to Dashboard</a>
+
+</div>
+
+{% endblock %}

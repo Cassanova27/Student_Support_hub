@@ -244,6 +244,31 @@ def view_checkins():
     conn.close()
     return render_template("view_checkins.html", checkins=checkins)
 
+@app.route("/journal", methods=["GET", "POST"])
+def journal():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+
+    if request.method == "POST":
+        entry = request.form.get("entry")
+        if entry:
+            conn.execute(
+                "INSERT INTO journals (user_id, entry) VALUES (?, ?)",
+                (session["user_id"], entry)
+            )
+            conn.commit()
+
+    entries = conn.execute(
+        "SELECT * FROM journals WHERE user_id = ? ORDER BY date DESC",
+        (session["user_id"],)
+    ).fetchall()
+    conn.close()
+
+    return render_template("journal.html", entries=entries)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
