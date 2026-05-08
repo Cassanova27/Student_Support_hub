@@ -26,6 +26,68 @@
         .points-box .star {
             font-size: 28px;
         }
+        .insights-box {
+            background: #f3e8ff;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .insights-box h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #2a2a2a;
+        }
+        .compare-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .bar-name {
+            font-size: 12px;
+            font-weight: 600;
+            width: 55px;
+            color: #555;
+        }
+        .bar-track {
+            flex: 1;
+            background: #e0d0f5;
+            border-radius: 20px;
+            height: 28px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            transition: width 1s ease;
+            min-width: 30px;
+        }
+        .bar-fill.you { background: #8B5CF6; }
+        .bar-fill.avg { background: #C4B5FD; width: 49.5%; }
+        .compare-result {
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+        }
+        .compare-result.positive { background: #C3ECD4; color: #065F46; }
+        .compare-result.neutral  { background: #FFF3B0; color: #7A6000; }
+        .compare-result.low      { background: #BDE0F5; color: #1e4d6b; }
     </style>
 </head>
 <body>
@@ -54,6 +116,45 @@
     <div class="tip-box">
         <h3>Recommendation</h3>
         <p>{{ tip }}</p>
+    </div>
+
+    <!-- Insights Comparison -->
+    <div class="insights-box">
+        <h3>How do you compare?</h3>
+
+        <p class="compare-label">Your Wellbeing Score vs Student Survey Average</p>
+
+        <div class="bar-row">
+            <span class="bar-name">You</span>
+            <div class="bar-track">
+                <div class="bar-fill you" style="width: {{ [score * 3.3, 100] | min }}%">
+                    {{ score }}
+                </div>
+            </div>
+        </div>
+
+        <div class="bar-row">
+            <span class="bar-name">Average</span>
+            <div class="bar-track">
+                <div class="bar-fill avg">
+                    {{ survey_avg_score }}
+                </div>
+            </div>
+        </div>
+
+        {% if score > survey_avg_score %}
+            <p class="compare-result positive">You scored higher than the student survey average!</p>
+        {% elif score == survey_avg_score %}
+            <p class="compare-result neutral">You scored in line with the student survey average.</p>
+        {% else %}
+            <p class="compare-result low">You scored below the student average — remember support is available.</p>
+        {% endif %}
+
+        <div style="background: #ede9fe; border-radius: 12px; padding: 16px; margin-top: 16px;">
+            <p style="font-weight: 600; margin-bottom: 8px;">Based on our survey of 40 students:</p>
+            <p>92.5% report feeling stressed often or sometimes</p>
+            <p>61% rate their overall wellbeing as just okay</p>
+        </div>
     </div>
 
     <div class="actions">

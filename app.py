@@ -13,7 +13,7 @@ def get_db_connection():
 
 # --- Points calculation ---
 def calculate_points(mood, activity, workload, academic, score):
-    points = 10  # base points for every check-in
+    points = 10  
 
     if mood == "happy":
         points += 5
@@ -215,11 +215,16 @@ def recommendations():
     conn.commit()
     conn.close()
 
+    survey_avg_score = 15
+    user_percentile = round((score / 30) * 100)
+
     return render_template("recommendations.html",
         message=message,
         tip=tip,
         score=score,
-        points_earned=points_earned
+        points_earned=points_earned,
+        survey_avg_score=survey_avg_score,
+        user_percentile=user_percentile
     )
 @app.route("/resources")
 def resources():
