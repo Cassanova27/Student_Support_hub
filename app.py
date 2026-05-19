@@ -89,6 +89,11 @@ def signup():
         email = request.form.get("email")
         password = request.form.get("password")
         hashed_password = generate_password_hash(password)
+       
+        if len(password) <8:
+            error = "Password must be at least 8 characters."
+            return render_template("signup.html", error=error)
+
 
         conn = get_db_connection()
         try:
