@@ -82,6 +82,7 @@ def index():
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    error = None
     if request.method == "POST":
         username = request.form.get("username")
         email = request.form.get("email")
@@ -99,9 +100,9 @@ def signup():
             return redirect(url_for("login"))
         except sqlite3.IntegrityError:
             conn.close()
-            return "Username or email already exists."
+            error = "Username or email already exists."
 
-    return render_template("signup.html")
+    return render_template("signup.html", error=error)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -185,9 +186,18 @@ def recommendations():
     elif workload == "medium": score += 3
     else: score += 1
 
-    if sleep == "restful": score += 5
-    elif sleep == "Okay - managed but not great": score += 3
+    if sleep == "okay": score += 3
+    elif sleep == "broken": score += 2
     else: score += 1
+
+    if social == "isolated": score += 1
+    elif social == "disconnected": score += 2
+    elif social == "okay": score += 3
+    elif social == "connected": score += 5
+
+    if financial == "struggling": score += 1
+    elif financial == "tight": score += 3
+    elif financial == "okay": score += 5
 
     score += int(rating or 0)
 
