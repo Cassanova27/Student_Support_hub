@@ -12,7 +12,7 @@ def get_db_connection():
     return conn
 
 # --- Points calculation ---
-def calculate_points(mood, activity, workload, academic, score):
+def calculate_points(mood, sleep, workload, academic, score):
     points = 10  
 
     if mood == "happy":
@@ -20,9 +20,9 @@ def calculate_points(mood, activity, workload, academic, score):
     elif mood == "okay":
         points += 3
 
-    if activity == "high":
+    if sleep == "Restful":
         points += 5
-    elif activity == "medium":
+    elif sleep == "Okay- managed but not grey":
         points += 3
 
     if workload == "low":
@@ -168,7 +168,7 @@ def recommendations():
     workload = request.form.get("workload")
     social = request.form.get("social")
     financial = request.form.get("financial")
-    activity = request.form.get("activity")
+    sleep = request.form.get("sleep")
     rating = request.form.get("rating")
 
     score = 0
@@ -185,8 +185,8 @@ def recommendations():
     elif workload == "medium": score += 3
     else: score += 1
 
-    if activity == "high": score += 5
-    elif activity == "medium": score += 3
+    if sleep == "restful": score += 5
+    elif sleep == "Okay - managed but not great": score += 3
     else: score += 1
 
     score += int(rating or 0)
@@ -202,16 +202,16 @@ def recommendations():
         tip = "Consider reaching out to someone you trust or using university wellbeing support."
 
     # Calculate and save points
-    points_earned = calculate_points(mood, activity, workload, academic, score)
+    points_earned = calculate_points(mood, sleep, workload, academic, score)
     points_earned = update_stats(session["user_id"], points_earned)
 
     conn = get_db_connection()
     conn.execute("""
         INSERT INTO checkins 
-        (user_id, mood, academic, workload, social, financial, activity, rating, score, points_earned)
+        (user_id, mood, academic, workload, social, financial, sleep, rating, score, points_earned)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (session["user_id"], mood, academic, workload, social, financial,
-          activity, rating, score, points_earned))
+          sleep, rating, score, points_earned))
     conn.commit()
     conn.close()
 

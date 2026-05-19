@@ -23,7 +23,7 @@ def create_database():
             workload TEXT,
             social TEXT,
             financial TEXT,
-            activity TEXT,
+            sleep TEXT,
             rating INTEGER,
             score INTEGER,
             points_earned INTEGER DEFAULT 0,

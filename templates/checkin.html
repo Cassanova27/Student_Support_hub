@@ -153,14 +153,14 @@
     <a href="/dashboard" class="back-link">← Back to Dashboard</a>
 
     <h2>Daily Check-In</h2>
-    <p class="subtitle">Tell us how you're feeling today</p>
+    <p class="subtitle">Tell us how you're feeling at the moment</p>
 
     <form action="{{ url_for('recommendations') }}" method="POST">
 
       <!-- Mood -->
       <div class="mb-3">
         <div class="section-tag">😊 Mood</div>
-        <label class="form-label">How are you feeling today?</label>
+        <label class="form-label">How are you feeling right now?</label>
         <select name="mood" class="form-select" required>
           <option value="">Select your mood</option>
           <option value="happy">😊 Happy</option>
@@ -178,9 +178,9 @@
         <label class="form-label">Academic Stress</label>
         <select name="academic" class="form-select" required>
           <option value="">Select level</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
+          <option value="Feeling on top it">Feeling on top it</option>
+          <option value="Managing but it's a lot">Managing but it's a lot</option>
+          <option value="Really Struggling">Really Struggling</option>
         </select>
       </div>
 
@@ -190,21 +190,22 @@
         <label class="form-label">How heavy is your workload?</label>
         <select name="workload" class="form-select" required>
           <option value="">Select level</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
+           <option value="Feeling on top it">Feeling on top it</option>
+          <option value="Managing but it's a lot">Managing but it's a lot</option>
+          <option value="Really Struggling">Really Struggling</option>
         </select>
       </div>
 
-      <!-- Physical Activity -->
+          <!-- Sleep -->
       <div class="mb-3">
-        <div class="section-tag">🏃 Activity</div>
-        <label class="form-label">Physical Activity Today</label>
-        <select name="activity" class="form-select" required>
-          <option value="">Select level</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
+        <div class="section-tag">😴 Sleep</div>
+        <label class="form-label">How was your sleep last night?</label>
+        <select name="sleep" class="form-select" required>
+          <option value="">Select quality</option>
+          <option value="restful">😴 Restful — felt well rested</option>
+          <option value="okay">🙂 Okay — managed but not great</option>
+          <option value="broken">😐 Broken — kept waking up</option>
+          <option value="barely">😩 Barely slept</option>
         </select>
       </div>
 
