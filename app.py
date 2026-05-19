@@ -84,7 +84,8 @@ def index():
 def signup():
     error = None
     if request.method == "POST":
-        username = request.form.get("username")
+        first_name = request.form.get("first_name")
+        last_name = request.form.get("last_name")
         email = request.form.get("email")
         password = request.form.get("password")
         hashed_password = generate_password_hash(password)
@@ -92,15 +93,15 @@ def signup():
         conn = get_db_connection()
         try:
             conn.execute(
-                "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-                (username, email, hashed_password)
+                "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)",
+                (first_name, last_name, email, hashed_password)
             )
             conn.commit()
             conn.close()
             return redirect(url_for("login"))
         except sqlite3.IntegrityError:
             conn.close()
-            error = "Username or email already exists."
+            error = "An account with this email already exists."
 
     return render_template("signup.html", error=error)
 
@@ -119,7 +120,7 @@ def login():
 
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
-            session["username"] = user["username"]
+            session["first_name"] = user["first_name"]
             return redirect(url_for("dashboard"))
         error = "Invalid email or password"
 
@@ -146,7 +147,7 @@ def dashboard():
     conn.close()
 
     return render_template("dashboard.html",
-        username=session["username"],
+        first_name=session["first_name"],
         stats=stats,
         recent_checkins=recent_checkins
     )
