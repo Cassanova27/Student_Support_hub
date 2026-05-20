@@ -232,14 +232,14 @@ def recommendations():
     conn.close()
 
     survey_avg_score = 5
-    user_percentile = round((score / 30) * 100)
+    
 
     return render_template("recommendations.html",
         tips=tips,
         score=score,
         points_earned=points_earned,
         survey_avg_score=survey_avg_score,
-        user_percentile=user_percentile
+      
     )
 @app.route("/resources")
 def resources():

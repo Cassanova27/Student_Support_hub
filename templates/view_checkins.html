@@ -16,8 +16,19 @@
         </div>
 
         <div style="flex: 1;">
-            <strong style="display: block; font-size: 15px;">{{ checkin.mood | capitalize }} — {{ checkin.workload | capitalize }} workload</strong>
-            <span style="font-size: 12px; color: #999;">Academic: {{ checkin.academic | capitalize }} &nbsp;|&nbsp; Activity: {{ checkin.activity | capitalize }} &nbsp;|&nbsp; Rating: {{ checkin.rating }}/10</span>
+            <strong style="display: block; font-size: 15px;">
+                {% if checkin.mood == 'happy' %}😊
+                {% elif checkin.mood == 'okay' %}😐
+                {% elif checkin.mood == 'tired' %}😴
+                {% elif checkin.mood == 'stressed' %}😟
+                {% else %}😔{% endif %}
+                {{ checkin.mood | capitalize }} — {{ checkin.workload | capitalize }} workload
+            </strong>
+            <span style="font-size: 12px; color: #999;">
+                Academic: {{ checkin.academic | capitalize }} &nbsp;|&nbsp;
+                Sleep: {{ checkin.sleep | capitalize }} &nbsp;|&nbsp;
+                Rating: {{ checkin.rating }}/10
+            </span>
         </div>
 
         <div style="text-align: right;">
