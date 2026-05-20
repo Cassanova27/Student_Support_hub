@@ -186,12 +186,12 @@ def recommendations():
     elif mood == "tired": score -= 1
     elif mood == "low": score -= 1
 
-    if academic == "feeling on top of it": score += 1
+    if academic == "Feeling on top of it": score += 1
     elif academic == "Managing but it's a lot": score += 0
     elif academic == "Really Struggling": score -=1
 
 
-    if workload == "feeling on top of it": score += 1
+    if workload == "Feeling on top of it": score += 1
     elif workload == "Managing but it's a lot": score += 0
     elif workload== "Really Struggling": score -=1
 

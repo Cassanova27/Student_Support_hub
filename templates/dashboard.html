@@ -371,7 +371,7 @@
         {% set last = recent_checkins[0] %}
         <p>Last check-in: <strong>{{ last.workload | capitalize if last.workload else '—' }}</strong></p>
         <div class="stress-dots">
-          {% set level = 3 if last.workload == 'high' else (2 if last.workload == 'medium' else 1) %}
+          {% set level = 3 if last.workload == 'Really Struggling' else (2 if last.workload == "Managing but it's a lot" else 1) %}
           {% for i in range(5) %}
             <div class="stress-dot {% if i < level %}filled{% endif %}"></div>
           {% endfor %}
