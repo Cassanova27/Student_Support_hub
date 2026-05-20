@@ -13,29 +13,7 @@ def get_db_connection():
 
 # --- Points calculation ---
 def calculate_points(mood, sleep, workload, academic, score):
-    points = 10  
-
-    if mood == "happy":
-        points += 5
-    elif mood == "okay":
-        points += 3
-
-    if sleep == "Restful":
-        points += 5
-    elif sleep == "Okay- managed but not grey":
-        points += 3
-
-    if workload == "low":
-        points += 3
-
-    if academic == "low":
-        points += 3
-
-    if score >= 20:
-        points += 10
-    elif score >= 12:
-        points += 5
-
+    points = 1 
     return points
 
 # --- Update streak and total points ---
@@ -178,44 +156,66 @@ def recommendations():
     sleep = request.form.get("sleep")
     rating = request.form.get("rating")
 
+    tips = []
+    low_areas = []
+
+    if mood in ["tired", "low"]:
+        low_areas.append(("mood", "😔 Your mood seems low today. Try some self care — a short walk or 5 minutes of deep breathing can help."))
+    if academic == "Really Struggling":
+        low_areas.append(("academic", "📚 Academic stress is high. Break tasks into smaller steps and tackle one at a time."))
+    if workload == "Really Struggling":
+        low_areas.append(("workload", "💼 Your workload feels heavy. Prioritise your top 3 tasks and ask for support if needed."))
+    if sleep in ["broken", "barely"]:
+        low_areas.append(("sleep", "😴 Poor sleep affects everything. Try a consistent bedtime and no screens 30 minutes before bed."))
+    if social in ["isolated", "disconnected"]:
+        low_areas.append(("social", "👥 You seem disconnected. Try reaching out to one person today — even a quick message helps."))
+    if financial == "struggling":
+        low_areas.append(("financial", "💰 Financial stress is tough. Check if your university offers hardship funds or speak to a student advisor."))
+
+    if len(low_areas) == 0:
+        tips.append("✅ You're doing well across all areas. Keep it up and check in again later⭐!")
+    elif len(low_areas) >= 4:
+        tips.append("It looks like you're going through a tough time across multiple areas. Be kind to yourself — take things one step at a time and don't hesitate to reach out to university support if things feel overwhelming.")
+    else:
+        for _, tip in low_areas:
+            tips.append(tip)
+            
     score = 0
-    if mood == "happy": score += 5
-    elif mood == "okay": score += 3
-    elif mood == "tired": score += 2
-    else: score += 1
+    if mood == "happy": score += 1
+    elif mood == "okay": score += 0
+    elif mood == "tired": score -= 1
+    elif mood == "low": score -= 1
 
-    if academic == "low": score += 5
-    elif academic == "medium": score += 3
-    else: score += 1
+    if academic == "feeling on top of it": score += 1
+    elif academic == "Managing but it's a lot": score += 0
+    elif academic == "Really Struggling": score -=1
 
-    if workload == "low": score += 5
-    elif workload == "medium": score += 3
-    else: score += 1
 
-    if sleep == "okay": score += 3
-    elif sleep == "broken": score += 2
-    else: score += 1
+    if workload == "feeling on top of it": score += 1
+    elif workload == "Managing but it's a lot": score += 0
+    elif workload== "Really Struggling": score -=1
 
-    if social == "isolated": score += 1
-    elif social == "disconnected": score += 2
-    elif social == "okay": score += 3
-    elif social == "connected": score += 5
+    if sleep == "restful": score += 1
+    elif sleep == "okay": score += 0
+    elif sleep == "broken": score -= 1
+    elif sleep == "barely": score -= 1
 
-    if financial == "struggling": score += 1
-    elif financial == "tight": score += 3
-    elif financial == "okay": score += 5
+
+    if social == "isolated": score -= 1
+    elif social == "disconnected": score -= 1
+    elif social == "okay": score += 0
+    elif social == "connected": score += 1
+
+    if financial == "struggling": score -= 1
+    elif financial == "tight": score += 0
+    elif financial == "okay": score += 1
 
     score += int(rating or 0)
 
-    if score >= 20:
-        message = "Your wellbeing looks positive today."
-        tip = "Keep maintaining your healthy habits and regular check-ins."
-    elif score >= 12:
-        message = "You may be experiencing some pressure today."
-        tip = "Try taking a short break, planning your tasks, or doing something relaxing."
-    else:
-        message = "It seems like you may be feeling overwhelmed today."
-        tip = "Consider reaching out to someone you trust or using university wellbeing support."
+    raw_min = -6
+    raw_max = 16
+    score = max(raw_min, min(raw_max, score))
+    score = round((score - raw_min) / (raw_max - raw_min)* 10)
 
     # Calculate and save points
     points_earned = calculate_points(mood, sleep, workload, academic, score)
@@ -231,12 +231,11 @@ def recommendations():
     conn.commit()
     conn.close()
 
-    survey_avg_score = 15
+    survey_avg_score = 5
     user_percentile = round((score / 30) * 100)
 
     return render_template("recommendations.html",
-        message=message,
-        tip=tip,
+        tips=tips,
         score=score,
         points_earned=points_earned,
         survey_avg_score=survey_avg_score,

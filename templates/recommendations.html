@@ -106,16 +106,13 @@
         <div class="star">⭐</div>
         <div class="points-num">+{{ points_earned }}</div>
         <p>points earned this check-in!</p>
-    </div>
-
-    <div class="feedback-box">
-        <h3>Feedback</h3>
-        <p>{{ message }}</p>
-    </div>
+    </div> 
 
     <div class="tip-box">
-        <h3>Recommendation</h3>
+        <h3>Your Personalised Tips</h3>
+         {% for tip in tips %}
         <p>{{ tip }}</p>
+    {% endfor %}
     </div>
 
     <!-- Insights Comparison -->
