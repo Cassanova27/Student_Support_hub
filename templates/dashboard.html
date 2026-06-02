@@ -352,18 +352,19 @@
     </div>
 
     <div class="dash-card orange-card">
-      <h3>Sleep</h3>
-      {% if recent_checkins %}
-        {% set last = recent_checkins[0] %}
-        <p>Last rating: <strong>{{ last.rating }}/10</strong> —
-          {% if last.rating >= 8 %}Great night!
-          {% elif last.rating >= 5 %}Not bad.
-          {% else %}Could be better.{% endif %}
-        </p>
-      {% else %}
-        <p>Track how rested you feel.</p>
-      {% endif %}
-    </div>
+    <h3>Sleep</h3>
+    {% if recent_checkins %}
+      {% set last = recent_checkins[0] %}
+      <p>Last night: <strong>{{ last.sleep | capitalize }}</strong> —
+        {% if last.sleep == "restful" %}Well rested!
+        {% elif last.sleep == "okay" %}Managed but not great.
+        {% elif last.sleep == "broken" %}Kept waking up.
+        {% else %}Barely slept — be kind to yourself.{% endif %}
+      </p>
+    {% else %}
+      <p>Track how rested you feel.</p>
+    {% endif %}
+  </div>
 
     <div class="dash-card purple-card">
       <h3>Stress Level</h3>
